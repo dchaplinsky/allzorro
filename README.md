@@ -1,7 +1,7 @@
 # allzorro
 
 ```
-compose install
+composer install
 
 export DATABASE_HOST=localhost
 export DATABASE_PASSWORD=
