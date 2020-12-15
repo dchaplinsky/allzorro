@@ -1,0 +1,11 @@
+{
+    "require": {
+        "guzzlehttp/guzzle": "^6.5",
+        "doctrine/orm": "^2.6.2",
+        "dunglas/doctrine-json-odm": "^1.0",
+        "vanilla/garden-cli": "^2.2"
+    },
+    "autoload": {
+        "psr-0": {"": "src/"}
+    }
+}
