@@ -14,12 +14,12 @@ $cli->description('Update local Prozorro contracts copy.')
 // Parse and return cli args.
 $args = $cli->parse($argv, true);
 
-$since = new DateTime("2016-05-01T00:00:01+03:00");
-
 if ($args->getOpt("force")) {
 	$since = new DateTime("2016-05-01T00:00:01+03:00");
-} else if ($args->getOpt("days")) {
-	$since = (new DateTime("NOW"))->sub(new DateInterval("P" . $args->getOpt("days") . "D"));
+} else if ($days = $args->getOpt("days")) {
+	$timestamp = strtotime($days . " days ago 00:00:00");
+	$timezone = new DateTimeZone("Europe/Kiev"); // Kyiv not Kiev
+	$since = DateTime::createFromFormat("U", $timestamp)->setTimezone($timezone);
 } else {
 	$dql = "SELECT max(c.date_modified) AS last_contract FROM Contract c";
 	$last_entry = $entityManager->createQuery($dql)->getScalarResult();
@@ -46,14 +46,15 @@ function get_page_since($entityManager, $since) {
 
 			$contract_obj = new Contract();
 			$contract_obj->id = $contract_response["id"];
-			if (isset($contract_response["period"])) {
-				if (isset($contract_response["period"]["startDate"])) {
-					$contract_obj->start_date = new DateTime($contract_response["period"]["startDate"]);
-				}
-				if (isset($contract_response["period"]["endDate"])) {
-					$contract_obj->end_date = new DateTime($contract_response["period"]["endDate"]);
-				}
+
+			if (isset($contract_response["period"]["startDate"])) {
+				$contract_obj->start_date = new DateTime($contract_response["period"]["startDate"]);
 			}
+
+			if (isset($contract_response["period"]["endDate"])) {
+				$contract_obj->end_date = new DateTime($contract_response["period"]["endDate"]);
+			}
+
 			$contract_obj->identifier_id = $contract_response["suppliers"][0]["identifier"]["id"];
 			$contract_obj->identifier_legal_name = $contract_response["suppliers"][0]["identifier"]["legalName"];
 			$contract_obj->contract_id = $contract_response["contractID"];
