@@ -46,14 +46,15 @@ function get_page_since($entityManager, $since) {
 
 			$contract_obj = new Contract();
 			$contract_obj->id = $contract_response["id"];
-			if (isset($contract_response["period"])) {
-				if (isset($contract_response["period"]["startDate"])) {
-					$contract_obj->start_date = new DateTime($contract_response["period"]["startDate"]);
-				}
-				if (isset($contract_response["period"]["endDate"])) {
-					$contract_obj->end_date = new DateTime($contract_response["period"]["endDate"]);
-				}
+
+			if (isset($contract_response["period"]["startDate"])) {
+				$contract_obj->start_date = new DateTime($contract_response["period"]["startDate"]);
 			}
+
+			if (isset($contract_response["period"]["endDate"])) {
+				$contract_obj->end_date = new DateTime($contract_response["period"]["endDate"]);
+			}
+
 			$contract_obj->identifier_id = $contract_response["suppliers"][0]["identifier"]["id"];
 			$contract_obj->identifier_legal_name = $contract_response["suppliers"][0]["identifier"]["legalName"];
 			$contract_obj->contract_id = $contract_response["contractID"];
