@@ -30,11 +30,11 @@ class Contract {
 	public $date_modified;
 
 	/**
-	 * @ORM\Column(type="string", nullable=true)
+	 * @ORM\Column(type="text[]", nullable=true)
 	 */
 	public $identifier_id;
 	/**
-	 * @ORM\Column(type="string", nullable=true)
+	 * @ORM\Column(type="text[]", nullable=true)
 	 */
 	public $identifier_legal_name;
 
@@ -45,7 +45,7 @@ class Contract {
 
 	/**
 	 *
-	 * @ORM\Column(type="json_document", options={"jsonb": true})
+	 * @ORM\Column(type="jsonb")
 	 */
 	public $payload;
 }
